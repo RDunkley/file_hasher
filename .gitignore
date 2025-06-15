@@ -1,0 +1,4 @@
+.vs/*
+file_hasher/obj/*
+file_hasher/bin/*
+file_hasher/Properties/launchSettings.json
