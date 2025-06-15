@@ -856,7 +856,7 @@ namespace System
 						if(throwErrorOnNotFound)
 						{
 							string[] lines = GenerateErrorString(mCommandLine, keyIndex);
-							throw new InvalidOperationException(string.Format("ERROR: Found a tag ({0}), but it does not appear to be a valid command line argument.\n{1}\n{2}", keyIndex, lines[0], lines[1]));
+							throw new InvalidOperationException($"ERROR: Found a tag ({tag}), but it does not appear to be a valid command line argument.\n{lines[0]}\n{lines[1]}");
 						}
 					}
 				}

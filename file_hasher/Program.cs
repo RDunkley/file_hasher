@@ -32,6 +32,12 @@ namespace file_hasher
 			//Console.WriteLine($"Command Line: {cmdLine}");
 
 			ConsoleArgs<CommandSettings>.Populate(cmdLine, settings);
+			if (settings.Help)
+			{
+				Console.WriteLine(ConsoleArgs<CommandSettings>.GenerateHelpText(Console.BufferWidth));
+				return;
+			}
+
 			string error = settings.ValidateSettings();
 			if (error != null)
 			{

@@ -23,7 +23,7 @@ using System.Security.Cryptography;
 
 namespace file_hasher
 {
-	[Usage("Hashes all the files found in a folder (and subfolders) and looks for duplicates.", "file_hashers [-a=<algorithm>] [-e] [-s] -i=<input folder 1>,<input folder 2> [-d=<duplicate output file>] [-o=<output file>]")]
+	[Usage("Hashes all the files found in a folder (and subfolders) and looks for duplicates.", "file_hasher [-a=<algorithm>] [-e] [-s] -i=<input folder 1>,<input folder 2> [-d=<duplicate output file>] [-o=<output file>]")]
 	internal class CommandSettings
 	{
 		#region Arguments
@@ -33,6 +33,9 @@ namespace file_hasher
 
 		[Argument('d', "Tracks duplicate files and outputs them to the specified file.", Word = "dup")]
 		public string DuplicateFilePath { get; set; } = null;
+
+		[Argument('h', "Displays this help page and exits the program.", Word = "help")]
+		public bool Help { get; set; } = false;
 
 		[Argument('i', "Folders containing files and sub-folders of files to be hashed.", Word = "input")]
 		public string[] InputFolders { get; set; } = null;

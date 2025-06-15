@@ -2,3 +2,4 @@
 file_hasher/obj/*
 file_hasher/bin/*
 file_hasher/Properties/launchSettings.json
+file_hasher/file_hasher.csproj.user
