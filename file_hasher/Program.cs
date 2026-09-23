@@ -50,8 +50,9 @@ namespace file_hasher
 			hasher.DisplayWhileProcessing = settings.OutputPath == null;
 			hasher.DisplayErrorOnAccess = settings.ErrorOnAccess;
 			hasher.ProcessSymLinks = settings.IncludeLinks;
-			foreach (string folder in settings.InputFolders)
-				hasher.Hash(folder, null);
+			hasher.ProcessCompressed = settings.ProcessCompressed;
+			hasher.ThreadCount = settings.ThreadCount;
+			hasher.Hash(settings.InputFolders, null);
 
 			if (settings.OutputPath != null)
 			{
