@@ -96,7 +96,7 @@ namespace file_hasher
 		public Dictionary<string, string> DuplicateFiles { get; private set; } = null;
 
 		/// <summary>
-		///   Lookup table of file paths, where the key is the actual file path (not the symbolic link) and the value is the hash of that file.
+		///   Lookup table of file paths, where the key is the displayed file path (the link path when a symbolic link is used) and the value is the hash of that file.
 		/// </summary>
 		public Dictionary<string, string> HashByFile { get; private set; } = new Dictionary<string, string>();
 
@@ -636,7 +636,7 @@ namespace file_hasher
 					if (ProcessCompressed && IsCompressedFile(srcFile))
 					{
 						reader.Position = 0;
-						HashCompressedContents(srcFile, reader, algorithm);
+						HashCompressedContents(file, reader, algorithm);
 					}
 				}
 			}
@@ -655,8 +655,8 @@ namespace file_hasher
 		/// <summary>
 		///   Records a computed hash in the lookup tables and optionally displays it.
 		/// </summary>
-		/// <param name="file">Displayed path used for duplicate tracking and console output.</param>
-		/// <param name="srcFile">Canonical path used as the hash lookup key.</param>
+		/// <param name="file">Displayed path used as the hash lookup key, for duplicate tracking, and for console output.</param>
+		/// <param name="srcFile">Actual file path that was opened for hashing.</param>
 		/// <param name="hash">Computed hash bytes.</param>
 		private void RecordHash(string file, string srcFile, byte[] hash)
 		{
@@ -666,8 +666,8 @@ namespace file_hasher
 			string hashString = GetHashString(hash);
 			lock (_sync)
 			{
-				if (!HashByFile.ContainsKey(srcFile))
-					HashByFile.Add(srcFile, hashString);
+				if (!HashByFile.ContainsKey(file))
+					HashByFile.Add(file, hashString);
 
 				if (TrackDuplicates)
 				{

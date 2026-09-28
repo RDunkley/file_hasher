@@ -23,7 +23,8 @@ DESCRIPTION
         [Optional] - Also hashes files inside zip and gz archives by decompressing them on the fly. The archive
         itself is still hashed.
     d,dup=DuplicateFilePath
-        [Optional] - Tracks duplicate files and outputs them to the specified file.
+        [Optional] - Tracks duplicate files and outputs them to the specified file, with paths relative to each
+        input folder. When multiple input folders are specified, one file is written per folder.
     h,help
         [Optional] - Displays this help page and exits the program.
     i,input=InputFolders,...
@@ -31,7 +32,8 @@ DESCRIPTION
     m,threads=ThreadCount
         [Optional] - Number of threads to use when scanning and hashing. Defaults to 1 if not provided.
     o,output=OutputPath
-        [Optional] - Creates a csv file containing all the files found and their hash.
+        [Optional] - Creates a csv file of files and hashes, with paths relative to each input folder. When
+        multiple input folders are specified, one csv is written per folder.
     e,error
         [Optional] - Displays all files and folders that caused an error when accessed. This is most likely due to
         inaccessibility.

@@ -34,7 +34,7 @@ namespace file_hasher
 		[Argument('c', "Also hashes files inside zip and gz archives by decompressing them on the fly. The archive itself is still hashed.", Word = "compressed")]
 		public bool ProcessCompressed { get; set; } = false;
 
-		[Argument('d', "Tracks duplicate files and outputs them to the specified file.", Word = "dup")]
+		[Argument('d', "Tracks duplicate files and outputs them to the specified file, with paths relative to each input folder. When multiple input folders are specified, one file is written per folder.", Word = "dup")]
 		public string DuplicateFilePath { get; set; } = null;
 
 		[Argument('h', "Displays this help page and exits the program.", Word = "help")]
@@ -46,7 +46,7 @@ namespace file_hasher
 		[Argument('m', "Number of threads to use when scanning and hashing. Defaults to 1 if not provided.", Word = "threads")]
 		public int ThreadCount { get; set; } = 1;
 
-		[Argument('o', "Creates a csv file containing all the files found and their hash.", Word = "output")]
+		[Argument('o', "Creates a csv file of files and hashes, with paths relative to each input folder. When multiple input folders are specified, one csv is written per folder.", Word = "output")]
 		public string OutputPath { get; set; } = null;
 
 		[Argument('e', "Displays all files and folders that caused an error when accessed. This is most likely due to inaccessibility.", Word = "error")]
