@@ -23,7 +23,7 @@ using System.Security.Cryptography;
 
 namespace file_hasher
 {
-	[Usage("Hashes all the files found in a folder (and subfolders) and looks for duplicates.", "file_hasher [-a=<algorithm>] [-e] [-s] -i=<input folder 1>,<input folder 2> [-d=<duplicate output file>] [-o=<output file>]")]
+	[Usage("Hashes all the files found in a folder (and subfolders) and looks for duplicates.", "file_hasher [-a=<algorithm>] [-c] [-e] [-m=<thread count>] [-s] -i=<input folder 1>,<input folder 2> [-d=<duplicate output file>] [-o=<output file>]")]
 	internal class CommandSettings
 	{
 		#region Arguments
@@ -31,7 +31,10 @@ namespace file_hasher
 		[Argument('a', "Algorithm to use for hashing the files. Options are SHA256 or MD5. Defaults to SHA256 if not provided.", Word = "algorithm")]
 		public string HashAlgorithm { get; set; } = "SHA256";
 
-		[Argument('d', "Tracks duplicate files and outputs them to the specified file.", Word = "dup")]
+		[Argument('c', "Also hashes files inside zip and gz archives by decompressing them on the fly. The archive itself is still hashed.", Word = "compressed")]
+		public bool ProcessCompressed { get; set; } = false;
+
+		[Argument('d', "Tracks duplicate files and outputs them to the specified file, with paths relative to each input folder. When multiple input folders are specified, one file is written per folder.", Word = "dup")]
 		public string DuplicateFilePath { get; set; } = null;
 
 		[Argument('h', "Displays this help page and exits the program.", Word = "help")]
@@ -40,7 +43,10 @@ namespace file_hasher
 		[Argument('i', "Folders containing files and sub-folders of files to be hashed.", Word = "input")]
 		public string[] InputFolders { get; set; } = null;
 
-		[Argument('o', "Creates a csv file containing all the files found and their hash.", Word = "output")]
+		[Argument('m', "Number of threads to use when scanning and hashing. Defaults to 1 if not provided.", Word = "threads")]
+		public int ThreadCount { get; set; } = 1;
+
+		[Argument('o', "Creates a csv file of files and hashes, with paths relative to each input folder. When multiple input folders are specified, one csv is written per folder.", Word = "output")]
 		public string OutputPath { get; set; } = null;
 
 		[Argument('e', "Displays all files and folders that caused an error when accessed. This is most likely due to inaccessibility.", Word = "error")]
@@ -89,6 +95,9 @@ namespace file_hasher
 				if (!Directory.Exists(inputFolder))
 					return $"The input folder could not be located.";
 			}
+
+			if (ThreadCount < 1)
+				return $"The specified thread count '{ThreadCount}' is invalid. Use 1 or greater.";
 
 			if (HashAlgorithm == "SHA256")
 				Algorithm = SHA256.Create();
